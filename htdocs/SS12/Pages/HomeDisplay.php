@@ -12,15 +12,9 @@
             <div class="logo">DM'S Lechon House</div>
             <ul class="nav-links">
                 <li><a href="Home.html">Home</a></li>
-                <li><a href="Menu.html">Menu</a></li>
-                <li><a href="#">Service</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Gallery</a></li>
+                <li><a href="MenuDisplay.php">Menu</a></li>
+                <li><a href="#">Contact Us</a></li>
             </ul>
-            <div class="auth-buttons">
-                <a href="sign-in" class="sign-in">Sign In</a>
-                <a href="sign-up" class="sign-up">Sign Up</a>
-            </div>
         </nav>
     </header>
 
@@ -115,7 +109,7 @@
                 <img src="https://i.pinimg.com/736x/29/ce/81/29ce81db5f379a9eb207421e7fd20800.jpg" alt="Lechon Baboy">
                 <div class="popular-details">
                     <h3>Lechon Baboy</h3>
-                    <p><b>Lechon Baboy is a beloved Filipino delicacy, featuring a whole pig roasted to perfection over an open flame or in a traditional oven. The process involves marinating the pig with a flavorful blend of spices, herbs, and sometimes citrus, giving it a rich, savory taste. The pig is slowly cooked, ensuring that the skin turns irresistibly crispy, while the meat remains tender and juicy. Often served during festive occasions and celebrations, Lechon Baboy** is a symbol of hospitality and community in Filipino culture. It's typically accompanied by a dipping sauce made from soy sauce, vinegar, and spices, enhancing the dish's savory flavors. Whether enjoyed at large family gatherings or special events, Lechon Baboy is a dish that brings people together, offering both a visual feast and a delicious meal.</b></p>
+                    <p>??</p>
                 </div>
             </div>
             <div class="popular-item">
