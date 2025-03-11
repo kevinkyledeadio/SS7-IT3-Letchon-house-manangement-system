@@ -172,10 +172,7 @@
             </div>
         </div>
 
-      <!-- Add other menu items here -->
-      </div>
-
-<div class="order-form" id="order-form">
+        <div class="order-form">
     <h2>Place Your Order</h2>
     <form>
         <label for="fullname">Full Name:</label>
@@ -201,7 +198,7 @@
 
         <!-- Food Name Field -->
         <label for="food-name">Food Name:</label>
-        <input type="text" id="food-name" name="food-name" required readonly>
+        <input type="text" id="food-name" name="food-name" required>
 
         <label for="quantity">Order Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" required>
@@ -215,25 +212,25 @@
         <button type="submit" class="submit-btn">Submit Order</button>
     </form>
 </div>
-</div>
 
-<script>
-function filterMenu(category) {
-    let items = document.querySelectorAll('.menu-item');
-    items.forEach(item => {
-        if (category === 'all' || item.classList.contains(category)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
+
+    <script>
+        function filterMenu(category) {
+            let items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
-    });
-}
 
-function showOrderForm(foodName, price) {
-    document.getElementById('food-name').value = foodName;
-    document.getElementById('price').value = price;
-    document.getElementById('order-form').style.display = 'block';
-}
-</script>
+        function showOrderForm(foodName, price) {
+            document.getElementById('food-name').value = foodName;
+            document.getElementById('price').value = price;
+            document.getElementById('order-form').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
