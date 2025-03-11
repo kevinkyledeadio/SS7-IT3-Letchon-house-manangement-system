@@ -11,8 +11,8 @@
         <nav class="navbar">
             <div class="logo">DM'S <span>Lechon House</span></div>
             <ul class="nav-links">
-                <li><a href="HomeDisplay.php">Home</a></li>
-                <li><a href="MenuDisplay.php">Menu</a></li>
+                <li><a href="homeDisplay.php">Home</a></li>
+                <li><a href="menuDisplay.php">Menu</a></li>
                 <li><a href="#">Contact Us</a></li>    
             </ul>
         </nav>

@@ -12,7 +12,7 @@
             <div class="logo">DM'S Lechon House</div>
             <ul class="nav-links">
                 <li><a href="Home.html">Home</a></li>
-                <li><a href="MenuDisplay.php">Menu</a></li>
+                <li><a href="menuDisplay.php">Menu</a></li>
                 <li><a href="#">Service</a></li>
             </ul>
         </nav>

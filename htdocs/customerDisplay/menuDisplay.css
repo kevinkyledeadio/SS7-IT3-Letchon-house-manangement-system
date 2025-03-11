@@ -216,9 +216,9 @@ body {
 
 /* Order Form */
 .order-form {
-    max-width: 600px;
-    margin: 178px auto;
-    padding: 20px;
+    max-width: 700px;
+    margin: 100px auto;
+    padding: 30px 50px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -237,8 +237,8 @@ body {
 }
 
 .order-form input {
-    width: 100%;
-    padding: 10px;
+    width: 95%;
+    padding: 15px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -247,11 +247,13 @@ body {
 .date-time-container {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .date-group,
 .time-group {
-    width: 48%;
+    width: 48.10%;
+    
 }
 
 .submit-btn {
