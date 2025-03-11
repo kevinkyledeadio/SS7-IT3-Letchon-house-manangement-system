@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DM'S Lechon House - Menu</title>
-    <link rel="stylesheet" href="MenuDisplay.css">
+    <link rel="stylesheet" href="menuDisplay.css">
 </head>
 <body>
     <header>
@@ -25,7 +25,7 @@
 </div>
 
         <div class="menu-filter">
-            <a href="#" onclick="filterMenu('all')">All</a>
+
             <a href="#" onclick="filterMenu('whole-lechon')">Whole Lechon</a>
             <a href="#" onclick="filterMenu('lechon-belly')">Lechon Belly</a>
             <a href="#" onclick="filterMenu('cochinillo')">Cochinillo</a>

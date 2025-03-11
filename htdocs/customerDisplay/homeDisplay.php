@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DM'S Lechon House</title>
-    <link rel="stylesheet" href="HomeDisplay.css">
+    <link rel="stylesheet" href="homeDisplay.css">
 </head>
 <body>
     <header>
