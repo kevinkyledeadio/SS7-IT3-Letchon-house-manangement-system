@@ -45,10 +45,9 @@ body {
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-    background: linear-gradient(to right, #b71c1c, #ff6b6b);
-    transform: scale(1.08);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+.nav-links li a:hover {
+    color: #ffcccb;
+    border-radius: 50px;
 }
 
 /* Responsive for Mobile */
@@ -65,16 +64,14 @@ body {
         margin: 10px 0;
     }
 }
-.nav-links a:hover{
+/* Navbar Hover Effect */
+.nav-links li a:hover {
+    color: #ffcccb;
      background: linear-gradient(to right, #b71c1c, #ff6b6b);
-    transform: scale(1.08);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: background 0.3s ease, padding 0.2s ease;
 }
-
-
-
-
-/* MENU SECTION */
 .menu-section {
     text-align: center;
     padding: 50px 5%;
@@ -123,7 +120,6 @@ body {
     }
 }
 
-
 .menu-filter {
     display: flex;
     flex-wrap: wrap;
@@ -149,30 +145,30 @@ body {
     box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
 }
 
+
 /* Main Container */
 .container {
     display: flex;
-    gap: 30px;
-    padding: 20px 5%;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between; /* Align items to the sides */
+    padding: 20px;
 }
 
-/* Menu Items */
+/* Menu Items Section */
 .menu-items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 50px;
-    width: 170%;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    flex: 1; /* Allow this section to take available space */
 }
 
+/* Menu Item Styles */
 .menu-item {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s;
 }
 
 .menu-item:hover {
@@ -180,164 +176,93 @@ body {
 }
 
 .menu-item img {
-    width: 170px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 30%;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .menu-item h3 {
-    color: #d32f2f;
-    font-size: 20px;
-    margin: 10px 0;
+    font-size: 1.5em;
+    color: #333;
 }
 
 .menu-item p {
-    font-size: 14px;
-    color: #555;
-}
-
-.price-order {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+    color: #666;
 }
 
 .price {
-    font-size: 20px;
     font-weight: bold;
-    color: #d32f2f;
+    color: #FF5722; /* Orange */
 }
 
-/* Order Button Hover */
 .order-btn {
-    background: linear-gradient(to right, #d32f2f, #ff5252);
-    color: white;
-    border: none;
-    padding: 12px 16px;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Button Ripple Effect */
-.order-btn::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.order-btn:hover::after {
-    opacity: 1;
-}
-
-.order-btn:hover {
-    background: linear-gradient(to right, #b71c1c, #ff6b6b);
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-}
-
-/* ORDER FORM STYLES */
-.order-form {
-    width: 40%;
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* FORM HEADING */
-.order-form h2 {
-    color: #d32f2f;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* INPUT FIELDS */
-.order-form label {
-    font-weight: bold;
-    text-align: left;
-    display: block;
-    margin-top: 10px;
-}
-
-.order-form input,
-.order-form select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-/* HOVER & FOCUS EFFECT */
-.order-form input:focus,
-.order-form select:focus {
-    border-color: #d32f2f;
-    outline: none;
-    box-shadow: 0px 4px 8px rgba(211, 47, 47, 0.2);
-}
-
-/* DATE & TIME CONTAINER */
-.date-time-container {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-}
-
-.date-group, .time-group {
-    width: 50%;
-}
-
-/* SUBMIT BUTTON */
-.submit-btn {
-    padding: 14px;
     background-color: #d32f2f;
     color: white;
     border: none;
+    padding: 10px 14px;
+    font-size: 15px;
     cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+
+.order-btn:hover {
+    background: linear-gradient(to right, #b71c1c, #ff6b6b);
+    box-shadow: 0px 5px 15px rgba(183, 28, 28, 0.4);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Order Form Styles */
+.order-form {
+    background-color: white;
+    padding: 20px;
     border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
-    transition: 0.3s;
-    margin-top: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Space between menu items and order form */
+    width: 300px; /* Fixed width for the order form */
+}
+
+/* Order Form Header */
+.order-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.order-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.order-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.submit-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
     width: 100%;
 }
 
 .submit-btn:hover {
-    background-color: #b71c1c;
-    box-shadow: 0px 4px 10px rgba(255, 204, 203, 0.5);
+    background-color: #45a049; /* Darker green */
 }
 
-/* RESPONSIVE DESIGN */
-@media (max-width: 1024px) {
-    .order-form {
-        width: 80%;
-    }
-
-    .date-time-container {
-        flex-direction: column;
-    }
-
-    .date-group, .time-group {
-        width: 100%;
-    }
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack items on smaller screens */
+    }
+
     .order-form {
-        width: 90%;
+        margin-left: 0; /* Remove left margin on small screens */
+        width: 100%; /* Full width on small screens */
     }
 }

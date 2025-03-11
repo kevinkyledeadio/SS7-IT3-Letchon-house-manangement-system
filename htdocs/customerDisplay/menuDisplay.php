@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DM'S Lechon House - Menu</title>
-    <link rel="stylesheet" href="menuDisplay.css">
+    <link rel="stylesheet" href="menu.css">
 </head>
 <body>
     <header>
@@ -25,7 +25,6 @@
 </div>
 
         <div class="menu-filter">
-
             <a href="#" onclick="filterMenu('whole-lechon')">Whole Lechon</a>
             <a href="#" onclick="filterMenu('lechon-belly')">Lechon Belly</a>
             <a href="#" onclick="filterMenu('cochinillo')">Cochinillo</a>
@@ -42,7 +41,6 @@
 
             <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>20-kilos Whole Lechon</h3>
                 <p>Traditional roasted pig with crispy skin.</p>
                 <span class="price">₱5,500</span>
@@ -51,7 +49,6 @@
 
             <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/736x/29/ce/81/29ce81db5f379a9eb207421e7fd20800.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Whole Lechon</h3>
                 <p>Traditional roasted pig with crispy skin.</p>
                 <span class="price">₱5,500</span>
@@ -60,7 +57,6 @@
 
             <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/736x/50/5d/38/505d3820798009ef2502178207abb923.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Whole Lechon</h3>
                 <p>Traditional roasted pig with crispy skin.</p>
                 <span class="price">₱5,500</span>
@@ -70,7 +66,6 @@
 
              <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/736x/6c/ab/2c/6cab2cab4e38df69c628390a84121979.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>20-kilos Whole Lechon</h3>
                 <p>Traditional roasted pig with crispy skin.</p>
                 <span class="price">₱5,500</span>
@@ -82,7 +77,6 @@
                      <!-- Lechon belly -->
             <div class="menu-item lechon-belly">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Lechon Belly</h3>
                 <p>Boneless, herb-infused roasted pork belly.</p>
                 <span class="price">₱1,800</span>
@@ -91,7 +85,6 @@
 
              <div class="menu-item lechon-belly">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Lechon Belly</h3>
                 <p>Boneless, herb-infused roasted pork belly.</p>
                 <span class="price">₱1,800</span>
@@ -100,7 +93,14 @@
 
              <div class="menu-item lechon-belly">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
+                <h3>Lechon Belly</h3>
+                <p>Boneless, herb-infused roasted pork belly.</p>
+                <span class="price">₱1,800</span>
+                 <button class="order-btn">Order Now</button>
+            </div> 
+
+            <div class="menu-item lechon-belly">
+                <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
                 <h3>Lechon Belly</h3>
                 <p>Boneless, herb-infused roasted pork belly.</p>
                 <span class="price">₱1,800</span>
@@ -109,7 +109,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -118,7 +117,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -127,7 +125,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -136,7 +133,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -145,7 +141,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -154,7 +149,6 @@
 
             <div class="menu-item cochinillo">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo</h3>
                 <p>Spanish-style roasted suckling pig.</p>
                 <span class="price">₱6,500</span>
@@ -163,7 +157,6 @@
 
             <div class="menu-item packages">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Whole Lechon Package</h3>
                 <p>Whole lechon with side dishes and drinks.</p>
                 <span class="price">₱7,500</span>
@@ -172,7 +165,6 @@
 
             <div class="menu-item packages">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Lechon Belly Package</h3>
                 <p>Lechon belly with rice and drinks.</p>
                 <span class="price">₱2,300</span>
@@ -180,12 +172,20 @@
             </div>
             <div class="menu-item packages">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
                 <h3>Cochinillo Package</h3>
                 <p>Cochinillo with paella and drinks.</p>
                 <span class="price">₱7,800</span>
                  <button class="order-btn">Order Now</button>
             </div>
+
+            <div class="menu-item packages">
+                <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
+                <h3>Cochinillo Package</h3>
+                <p>Cochinillo with paella and drinks.</p>
+                <span class="price">₱7,800</span>
+                 <button class="order-btn">Order Now</button>
+            </div>
+
         </div>
 
         <div class="order-form">
@@ -231,16 +231,19 @@
 
 
     <script>
-        function filterMenu(category) {
-            let items = document.querySelectorAll('.menu-item');
-            items.forEach(item => {
-                if (category === 'all' || item.classList.contains(category)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+    function filterMenu(category) {
+        let items = document.querySelectorAll('.menu-item');
+        items.forEach(item => {
+            // Show items that match the selected category
+            if (item.classList.contains(category)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+    }
+    
 
         function showOrderForm(foodName, price) {
             document.getElementById('food-name').value = foodName;

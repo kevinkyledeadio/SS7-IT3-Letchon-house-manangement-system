@@ -13,7 +13,7 @@
             <ul class="nav-links">
                 <li><a href="Home.html">Home</a></li>
                 <li><a href="menuDisplay.php">Menu</a></li>
-                <li><a href="#">Service</a></li>
+                <li><a href="ContactUs.php">Contact Us</a></li>
             </ul>
         </nav>
     </header>
