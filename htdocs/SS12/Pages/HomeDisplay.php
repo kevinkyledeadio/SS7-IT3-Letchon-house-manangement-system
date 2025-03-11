@@ -13,23 +13,22 @@
             <ul class="nav-links">
                 <li><a href="Home.html">Home</a></li>
                 <li><a href="MenuDisplay.php">Menu</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Service</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="welcome">
-        <div class="to">
-            <h1>Welcome to DM'S Lechon House</h1>
-        </div>
-    </section>
+   <div class="menu-section">
+    <h2 class="menu-heading">Welcome to DM'S lechon house</h2>
+    <div class="menu-divider"></div>
+</div>
     
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Order Your Best Food Anytime</h1>
-                <p>Lechon is a popular Filipino dish consisting of a whole roasted pig, known for its crispy skin and tender, flavorful meat. Often prepared for special occasions and celebrations, lechon is typically seasoned with a blend of spices and marinated before being slow-cooked over an open flame or in an oven. The result is a deliciously smoky, savory dish that is a centerpiece in Filipino feasts, enjoyed by people of all ages.</p>
-                <a href="Explore Our Menu" class="hero-btn">Explore Menu</a>
+                <p>Hey, Our delicious food is waiting for you.<br>We are always near you with fresh items of food.</p>
+                <a href="Menu.html" class="hero-btn">Explore Menu</a>
             </div>
             <div class="hero-image">
                 <img src="https://i.pinimg.com/736x/38/08/f5/3808f53a985580a55bf49dcc29beec89.jpg" alt="Delicious food">
@@ -41,14 +40,15 @@
         <div class="text">
             <h1>Explore Our Menu</h1>
         </div>
+
         <div class="menu-container">
             <div class="menu-item">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
                 <div class="menu-details">
-                    <h3>Lechon Baboy</h3>
+                    <h3>whole lechon Baboy</h3>
                     <p>30-kilos Traditional Filipino roasted pig with crispy skin.</p>
                     <div class="price-order">
-                        <span class="price">₱5,500</span>
+                        <span class="price">₱15,000</span>
                         <button class="order-btn">Order Now</button>
                     </div>
                 </div>
@@ -67,6 +67,7 @@
             <div class="menu-item">
                 <img src="https://i.pinimg.com/236x/f7/21/5d/f7215d48dd6b560d750de8a9a700705d.jpg" alt="Cochinillo">
                 <div class="menu-details">
+                     <h2>REGULAR</h2>
                     <h3>Cochinillo</h3>
                     <p>Spanish-style roasted suckling pig, tender and flavorful.</p>
                     <div class="price-order">
@@ -109,7 +110,7 @@
                 <img src="https://i.pinimg.com/736x/29/ce/81/29ce81db5f379a9eb207421e7fd20800.jpg" alt="Lechon Baboy">
                 <div class="popular-details">
                     <h3>Lechon Baboy</h3>
-                    <p>??</p>
+                    <p>A traditional Filipino roasted pig, known for its crispy golden-brown skin and juicy, flavorful meat. A must-have for celebrations!</p>
                 </div>
             </div>
             <div class="popular-item">
