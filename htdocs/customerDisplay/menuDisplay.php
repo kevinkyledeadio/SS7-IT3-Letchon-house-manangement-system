@@ -13,7 +13,7 @@
             <ul class="nav-links">
                 <li><a href="homeDisplay.php">Home</a></li>
                 <li><a href="menuDisplay.php">Menu</a></li>
-                <li><a href="#">Contact Us</a></li>    
+                <li><a href="ContactUs.php">Contact Us</a></li>    
             </ul>
         </nav>
     </header>
@@ -38,6 +38,14 @@
 
         <!-- Menu Items Section -->
         <div class="menu-items">
+
+        <div class="menu-item whole-lechon">
+                <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
+                <h3>20-kilos Whole Lechon</h3>
+                <p>Traditional roasted pig with crispy skin.</p>
+                <span class="price">₱5,500</span>
+                 <button class="order-btn">Order Now</button>
+            </div>
 
             <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
@@ -199,6 +207,10 @@
 
         <label for="contact">Contact Number:</label>
         <input type="tel" id="contact" name="contact" required>
+
+        <label for="Address">Address:</label>
+        <input type="text" id="Address" name="Address" required>
+
 
         <!-- Date & Time Fields in One Row -->
         <div class="date-time-container">
