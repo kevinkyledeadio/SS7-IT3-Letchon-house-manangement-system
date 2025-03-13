@@ -32,10 +32,10 @@
         </div>
     </div>
 
+
     <!-- Main Container (Wrap menu items and order form) -->
     <div class="container">
-
-
+        
         <!-- Menu Items Section -->
         <div class="menu-items">
 
@@ -49,7 +49,7 @@
 
             <div class="menu-item whole-lechon">
                 <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <h3>20-kilos Whole Lechon</h3>
+                <h3>30-kilos Whole Lechon</h3>
                 <p>Traditional roasted pig with crispy skin.</p>
                 <span class="price">₱5,500</span>
                  <button class="order-btn">Order Now</button>
