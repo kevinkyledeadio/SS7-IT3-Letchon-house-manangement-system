@@ -152,8 +152,8 @@ body {
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 15px;
-    width: 90%;
+    padding: 10px;
+    width: 85%;
     margin: 0 auto;
 }
 
@@ -180,7 +180,7 @@ body {
 }
 
 .menu-item img {
-    width: 100%;
+    width: 90%;
     border-radius: 8px;
 }
 
@@ -219,10 +219,10 @@ body {
 /* Order Form */
 .order-form {
     background-color: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-left: 20px; /* Adjusted margin-left */
+    margin-left: 45px; /* Adjusted margin-left */
     width: 35%;
 }
 
@@ -238,7 +238,7 @@ body {
 }
 
 .order-form input {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
