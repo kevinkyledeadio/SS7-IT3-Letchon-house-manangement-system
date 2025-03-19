@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - DM'S Lechon House</title>
-    <link rel="stylesheet" href="contact.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="ContactUs.css"> <!-- Link to your CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome for icons -->
 </head>
 <body>
@@ -39,7 +39,7 @@
 
         <div class="contact-info">
             <h3>Contact Information</h3>
-            <p>Email: <a href="mailto:your_email@example.com">your_email@example.com</a></p>
+            <p>Email: <a href="mailto:your_email@example.com">Deadiokevin@gmail.com</a></p>
             <div class="social-media">
                 <a href="https://www.facebook.com/yourpage" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/yourpage" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
