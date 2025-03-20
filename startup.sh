@@ -23,10 +23,13 @@ apachectl -D FOREGROUND &
 
 # Configure MySQL with specified username, password, and database name
 service mysql start
-mysql -e "CREATE DATABASE mariadb;"
-mysql -e "CREATE USER 'mariadb'@'localhost' IDENTIFIED BY 'mariadb';"
+mysql -e "CREATE DATABASE IF NOT EXISTS mariadb;"
+mysql -e "CREATE USER IF NOT EXISTS 'mariadb'@'localhost' IDENTIFIED BY 'mariadb';"
 mysql -e "GRANT ALL PRIVILEGES ON mariadb.* TO 'mariadb'@'localhost';"
 mysql -e "FLUSH PRIVILEGES;"
+
+# Create database schema and tables
+mysql -u mariadb -pmariadb mariadb < /workspaces/${REPO_NAME}/database/schema.sql
 
 # Keep the script running to prevent the container from exiting
 tail -f /dev/null

@@ -1,9 +1,9 @@
 <?php
 // Database connection
-$servername = "mariadb";
+$servername = "localhost";
 $username = "mariadb";
 $password = "mariadb";
-$dbname = "your_database_name";
+$dbname = "mariadb";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -1,3 +1,30 @@
+<?php
+session_start();
+
+// Redirect to login page if the user is not logged in
+if (!isset($_SESSION['client_email'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Database connection
+$servername = "localhost";
+$username = "mariadb";
+$password = "mariadb";
+$dbname = "mariadb";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch featured menu items
+$sql = "SELECT * FROM menu_items WHERE is_featured = 1";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,21 +34,21 @@
     <link rel="stylesheet" href="homeDisplay.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">DM'S Lechon House</div>
-            <ul class="nav-links">
-                <li><a href="Home.html">Home</a></li>
-                <li><a href="menuDisplay.php">Menu</a></li>
-                <li><a href="ContactUs.php">Contact Us</a></li>
-            </ul>
-        </nav>
+    <header class="bg-dark text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-center">DM'S Lechon House</h1>
+            <nav>
+                <a href="menuDisplay.php" class="btn btn-light btn-sm">Menu</a>
+                <a href="orderHistory.php" class="btn btn-light btn-sm">Order History</a>
+                <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+            </nav>
+        </div>
     </header>
 
-   <div class="menu-section">
-    <h2 class="menu-heading">Welcome to DM'S lechon house</h2>
-    <div class="menu-divider"></div>
-</div>
+    <div class="menu-section">
+        <h2 class="menu-heading">Welcome to DM'S Lechon House</h2>
+        <div class="menu-divider"></div>
+    </div>
     
     <section class="hero">
         <div class="hero-content">
@@ -42,62 +69,25 @@
         </div>
 
         <div class="menu-container">
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
-                    <h3>whole lechon Baboy</h3>
-                    <p>30-kilos Traditional Filipino roasted pig with crispy skin.</p>
-                    <div class="price-order">
-                        <span class="price">₱15,000</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/736x/d5/23/93/d52393d4892b9e8851e04738f6cd651f.jpg" alt="Lechon Belly">
-                <div class="menu-details">
-                    <h3>Lechon Belly</h3>
-                    <p>Boneless, herb-infused roasted pork belly.</p>
-                    <div class="price-order">
-                        <span class="price">₱1,800</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/236x/f7/21/5d/f7215d48dd6b560d750de8a9a700705d.jpg" alt="Cochinillo">
-                <div class="menu-details">
-                     <h2>REGULAR</h2>
-                    <h3>Cochinillo</h3>
-                    <p>Spanish-style roasted suckling pig, tender and flavorful.</p>
-                    <div class="price-order">
-                        <span class="price">₱6,500</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbav8QGPEO12Jc-5d5kY7YP-DQX14P4klgsD6DnEk8hCKrS8d0oU_5CwEJr1sVipACbZU&usqp=CAU" alt="Whole Lechon Package">
-                <div class="menu-details">
-                    <h3>Whole Lechon Package</h3>
-                    <p>Complete feast with whole lechon, side dishes, and rice.</p>
-                    <div class="price-order">
-                        <span class="price">₱8,500</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Lechon_Manok.jpg" alt="Lechon Manok">
-                <div class="menu-details">
-                    <h3>Lechon Manok</h3>
-                    <p>Rotisserie-style grilled chicken, crispy outside, juicy inside.</p>
-                    <div class="price-order">
-                        <span class="price">₱380</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="menu-item">';
+                    echo '<img src="' . $row['image_url'] . '" alt="' . $row['name'] . '">';
+                    echo '<div class="menu-details">';
+                    echo '<h3>' . $row['name'] . '</h3>';
+                    echo '<p>' . $row['description'] . '</p>';
+                    echo '<div class="price-order">';
+                    echo '<span class="price">₱' . $row['price'] . '</span>';
+                    echo '<button class="order-btn">Order Now</button>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<p>No featured items available.</p>';
+            }
+            ?>
         </div>
     </section>
 
@@ -131,3 +121,6 @@
     </section>
 </body>
 </html>
+<?php
+$conn->close();
+?>
