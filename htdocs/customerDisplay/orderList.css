@@ -5,7 +5,6 @@ body {
     padding: 0;
 }
 
-/* Header */
 header {
     background-color: #343a40;
     color: white;
@@ -35,10 +34,12 @@ header .btn-danger {
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    margin-top: 30px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
     background: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -50,44 +51,31 @@ h2 {
     text-align: center;
 }
 
-.contact-form label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-    display: block;
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
 }
 
-.contact-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+.table th {
+    background-color: #343a40;
     color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.contact-form button:hover {
-    background-color: #0056b3;
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
 }
 
-.alert {
-    font-size: 14px;
-    color: white;
-    background-color: #28a745;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 15px;
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.text-center {
     text-align: center;
 }

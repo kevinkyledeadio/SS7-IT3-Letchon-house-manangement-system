@@ -49,6 +49,11 @@ header .btn-danger {
 }
 .menu-filter .btn {
     margin: 5px;
+    font-size: 1rem;
+    padding: 10px 15px;
+}
+.menu-filter .btn-success {
+    margin-left: 15px;
 }
 
 /* Menu Items Grid */
@@ -73,64 +78,13 @@ header .btn-danger {
     object-fit: cover;
 }
 
-/* Order Button */
-.order-btn {
-    background-color: #dc3545;
-    color: white;
-    padding: 10px;
-    border: none;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.order-btn:hover {
-    background-color: #c82333;
-}
-
-/* Order Form Modal */
-.order-form {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background: white;
-    padding: 20px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    z-index: 1000;
-}
-
-/* Modal Overlay */
-.order-form-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-/* Order Form Inputs */
-.order-form input {
-    width: 100%;
-    padding: 8px;
+/* Action Buttons */
+.btn-warning, .btn-danger {
     margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 48%;
+    justify-content: space-between;
 }
 
-/* Close Button */
-.close-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    float: right;
+.container .d-flex .btn-success {
+    margin-left: auto;
 }

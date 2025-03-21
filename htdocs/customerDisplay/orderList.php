@@ -22,9 +22,8 @@ if ($conn->connect_error) {
 
 // Fetch orders for the logged-in customer
 $client_email = $_SESSION['client_email'];
-$sql = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price 
+$sql = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status 
         FROM orders o 
-        JOIN order_items oi ON o.id = oi.order_id 
         JOIN clients c ON o.client_id = c.id 
         WHERE c.email = ?";
 $stmt = $conn->prepare($sql);
@@ -38,13 +37,14 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order History</title>
+    <title>Order List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="orderList.css">
 </head>
 <body>
     <header class="bg-dark text-white p-3">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1>Order History</h1>
+            <h1>Order List</h1>
             <nav>
                 <a href="homeDisplay.php" class="btn btn-light btn-sm">Home</a>
                 <a href="menuDisplay.php" class="btn btn-light btn-sm">Menu</a>
@@ -54,13 +54,12 @@ $result = $stmt->get_result();
     </header>
 
     <div class="container mt-4">
-        <h2 class="text-center mb-4">Your Order History</h2>
+        <h2 class="text-center mb-4">Your Orders</h2>
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
                 <tr>
                     <th>Order ID</th>
-                    <th>Item Name</th>
-                    <th>Price</th>
+                    <th>Total Price</th>
                     <th>Order Date</th>
                     <th>Delivery Option</th>
                     <th>Status</th>
@@ -72,15 +71,14 @@ $result = $stmt->get_result();
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($row['order_id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['item_name']) . " (x" . htmlspecialchars($row['quantity']) . ")</td>";
-                        echo "<td>₱" . htmlspecialchars(number_format($row['price'], 2)) . "</td>";
+                        echo "<td>₱" . htmlspecialchars(number_format($row['total_price'], 2)) . "</td>";
                         echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6' class='text-center'>No orders found.</td></tr>";
+                    echo "<tr><td colspan='5' class='text-center'>No orders found.</td></tr>";
                 }
                 ?>
             </tbody>

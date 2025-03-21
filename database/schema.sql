@@ -1,36 +1,49 @@
+-- Clients Table
 CREATE TABLE IF NOT EXISTS clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL -- Ensure sufficient length for hashed passwords
 );
 
+-- Admins Table
+CREATE TABLE IF NOT EXISTS admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL -- Ensure sufficient length for hashed passwords
+);
+
+-- Menu Items Table
 CREATE TABLE IF NOT EXISTS menu_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category VARCHAR(50) NOT NULL DEFAULT 'Uncategorized',
     image_url TEXT NOT NULL,
     is_featured BOOLEAN DEFAULT FALSE
 );
 
+-- Additional Items Table
 CREATE TABLE IF NOT EXISTS additional_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL
 );
 
+-- Orders Table
 CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
-    order_date DATETIME NOT NULL,
+    order_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     delivery_option VARCHAR(50) NOT NULL,
     status VARCHAR(50) DEFAULT 'Pending',
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Order Items Table
 CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
