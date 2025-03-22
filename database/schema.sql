@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL -- Ensure sufficient length for hashed passwords
+    password VARCHAR(255) NOT NULL, -- Ensure sufficient length for hashed passwords
+    address TEXT,
+    phone_number VARCHAR(15)
 );
 
 -- Admins Table
@@ -40,6 +42,8 @@ CREATE TABLE IF NOT EXISTS orders (
     order_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     delivery_option VARCHAR(50) NOT NULL,
     status VARCHAR(50) DEFAULT 'Pending',
+    address TEXT,
+    phone_number VARCHAR(15),
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

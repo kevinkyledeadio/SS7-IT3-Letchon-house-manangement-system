@@ -2,7 +2,7 @@
 session_start();
 
 // Redirect to login page if the user is not logged in
-if (!isset($_SESSION['client_email'])) {
+if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -21,14 +21,16 @@ if ($conn->connect_error) {
 }
 
 // Fetch orders for the logged-in customer
-$client_email = $_SESSION['client_email'];
-$sql = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price 
+$customer_id = $_SESSION['customer_id'];
+
+$sql = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address 
         FROM orders o 
         JOIN order_items oi ON o.id = oi.order_id 
         JOIN clients c ON o.client_id = c.id 
-        WHERE c.email = ?";
+        WHERE c.id = ?";
+
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $client_email);
+$stmt->bind_param("i", $customer_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -63,6 +65,7 @@ $result = $stmt->get_result();
                     <th>Price</th>
                     <th>Order Date</th>
                     <th>Delivery Option</th>
+                    <th>Address</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -76,6 +79,7 @@ $result = $stmt->get_result();
                         echo "<td>₱" . htmlspecialchars(number_format($row['price'], 2)) . "</td>";
                         echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                         echo "</tr>";
                     }

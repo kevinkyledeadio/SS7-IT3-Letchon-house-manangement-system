@@ -24,6 +24,21 @@ if ($conn->connect_error) {
 $sql_update_category = "UPDATE menu_items SET category = 'Whole Lechon' WHERE category = 'whole-lechon'";
 $conn->query($sql_update_category);
 
+// Handle delete menu item request
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    $sql_delete = "DELETE FROM menu_items WHERE id = ?";
+    $stmt_delete = $conn->prepare($sql_delete);
+    $stmt_delete->bind_param("i", $delete_id);
+
+    if ($stmt_delete->execute()) {
+        echo "<script>alert('Menu item deleted successfully!'); window.location.href='menuDisplay.php';</script>";
+    } else {
+        echo "<script>alert('Failed to delete menu item. Please try again.');</script>";
+    }
+    $stmt_delete->close();
+}
+
 // Fetch menu items
 $sql = "SELECT * FROM menu_items";
 $result = $conn->query($sql);
@@ -83,7 +98,7 @@ $result_categories = $conn->query($sql_categories);
                     echo '<p class="text-danger fw-bold">₱' . htmlspecialchars(number_format($row['price'], 2)) . '</p>';
                     echo '<div class="mt-auto">';
                     echo '<a href="editFood.php?id=' . $row['id'] . '" class="btn btn-warning btn-sm">Edit</a> ';
-                    echo '<a href="deleteFood.php?id=' . $row['id'] . '" class="btn btn-danger btn-sm">Delete</a>';
+                    echo '<a href="deleteMenu.php?id=' . $row['id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this item?\')">Delete</a>';
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';

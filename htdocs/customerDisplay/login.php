@@ -1,8 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 
 // Redirect to home display if the customer is already logged in
-if (isset($_SESSION['client_email'])) {
+if (isset($_SESSION['customer_id'])) {
     header("Location: homeDisplay.php");
     exit();
 }
@@ -33,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
     if ($result->num_rows > 0) {
         $client = $result->fetch_assoc();
+
         if (password_verify($password, $client['password'])) {
             $_SESSION['client_email'] = $email;
+            $_SESSION['customer_id'] = $client['id'];
             header("Location: homeDisplay.php");
             exit();
         } else {
@@ -50,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $address = $_POST['address'];
+    $phone_number = $_POST['phone_number'];
 
     $sql = "SELECT * FROM clients WHERE email = ?";
     $stmt = $conn->prepare($sql);
@@ -60,12 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     if ($result->num_rows > 0) {
         $register_error = "Email is already registered.";
     } else {
-        $sql = "INSERT INTO clients (name, email, password) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO clients (name, email, password, address, phone_number) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $name, $email, $password);
+        $stmt->bind_param("sssss", $name, $email, $password, $address, $phone_number);
 
         if ($stmt->execute()) {
             $_SESSION['client_email'] = $email;
+            $_SESSION['customer_id'] = $stmt->insert_id;
             header("Location: homeDisplay.php");
             exit();
         } else {
@@ -134,6 +142,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" id="email" name="email" class="form-control rounded-pill" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label>
+                <textarea id="address" name="address" class="form-control rounded-pill" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number:</label>
+                <input type="text" id="phone_number" name="phone_number" class="form-control rounded-pill" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password:</label>

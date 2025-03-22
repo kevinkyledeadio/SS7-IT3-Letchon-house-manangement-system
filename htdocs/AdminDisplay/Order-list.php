@@ -1,20 +1,20 @@
 <?php
-session_start();
+    session_start();
 
-// Redirect to login page if the admin is not logged in
-if (!isset($_SESSION['admin_username'])) {
-    header("Location: log-in.php");
-    exit();
-}
+    // Redirect to login page if the admin is not logged in
+    if (!isset($_SESSION['admin_username'])) {
+        header("Location: log-in.php");
+        exit();
+    }
 
-// Include the database connection file
-require_once 'db_connection.php';
+    // Include the database connection file
+    require_once 'db_connection.php';
 
-// Fetch all orders
-$sql = "SELECT o.id, c.name AS client_name, o.total_price, o.order_date, o.delivery_option, o.status 
-        FROM orders o 
-        JOIN clients c ON o.client_id = c.id";
-$result = $conn->query($sql);
+    // Fetch all orders
+    $sql = "SELECT o.id, c.name AS client_name, o.total_price, o.order_date, o.delivery_option, o.status, o.address, o.phone_number, o.delivery_datetime 
+            FROM orders o 
+            JOIN clients c ON o.client_id = c.id";
+    $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ $result = $conn->query($sql);
             <h1>Order List</h1>
             <nav>
                 <a href="menuDisplay.php" class="btn btn-light btn-sm">Menu</a>
-                <a href="logout.php" class="btn btn-danger btn-sm">Logout</a> <!-- Ensure this points to the correct logout.php file -->
+                <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
             </nav>
         </div>
     </header>
@@ -46,37 +46,98 @@ $result = $conn->query($sql);
                     <th>Total Price</th>
                     <th>Order Date</th>
                     <th>Delivery Option</th>
+                    <th>Scheduled Delivery/Pickup</th>
                     <th>Status</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($result && $result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        // Escape output to prevent XSS
-                        $orderId = htmlspecialchars($row['id']);
-                        $clientName = htmlspecialchars($row['client_name']);
-                        $totalPrice = htmlspecialchars(number_format($row['total_price'], 2));
-                        $orderDate = htmlspecialchars($row['order_date']);
-                        $deliveryOption = htmlspecialchars($row['delivery_option']);
-                        $status = htmlspecialchars($row['status']);
-
                         echo "<tr>";
-                        echo "<td>{$orderId}</td>";
-                        echo "<td>{$clientName}</td>";
-                        echo "<td>₱{$totalPrice}</td>";
-                        echo "<td>{$orderDate}</td>";
-                        echo "<td>{$deliveryOption}</td>";
-                        echo "<td>{$status}</td>";
+                        echo "<td>" . $row['id'] . "</td>";
+                        echo "<td>" . htmlspecialchars($row['client_name']) . "</td>";
+                        echo "<td>₱" . htmlspecialchars(number_format($row['total_price'], 2)) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['delivery_datetime']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
+                        if ($row["status"] == "Completed") {
+                            // If the order is completed, show the "Set to Pending" button
+                            echo '<td><button class="btn btn-warning" id="setPending" data-value="' . $row["id"] . '">Set to Pending</button></td>';
+                        } else {
+                            // If the order is not completed, show the "Complete Order" button
+                            echo '<td><button class="btn btn-success" id="completeOrder" data-value="' . $row["id"] . '">Complete Order</button></td>';
+                        }
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6' class='text-center'>No orders found.</td></tr>";
+                    echo "<tr><td colspan='9' class='text-center'>No orders found.</td></tr>";
                 }
                 ?>
             </tbody>
         </table>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Complete order
+            $('#completeOrder').on('click', function(e){
+                if (confirm('Are you sure you want to complete this order?')) {
+                    // Get the order ID through the data-value attribute
+                    var orderId = $(this).data('value');
+
+                    // Send an AJAX request
+                    $.ajax({
+                        url: 'complete-order.php',
+                        type: 'POST',
+                        data: {
+                            orderId: orderId
+                        },
+                        success: function(response) {
+                            if (response === 'success') {
+                                alert('Order setted to completed successfully.');
+                                location.reload();
+                            } else {
+                                alert('An error occurred. Please try again.');
+                            }
+                        }
+                    });
+                }
+            })
+
+            $('#setPending').on('click', function(e){
+                if (confirm('Are you sure you want to set this order to pending?')) {
+                    // Get the order ID through the data-value attribute
+                    var orderId = $(this).data('value');
+
+                    // Send an AJAX request
+                    $.ajax({
+                        url: 'set-pending.php',
+                        type: 'POST',
+                        data: {
+                            orderId: orderId
+                        },
+                        success: function(response) {
+                            if (response === 'success') {
+                                alert('Order setted to pending successfully.');
+                                location.reload();
+                            } else {
+                                alert('An error occurred. Please try again.');
+                            }
+                        }
+                    });
+                }
+            })
+        });
+    </script>
 </body>
 </html>
 <?php $conn->close(); ?>
