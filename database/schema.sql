@@ -56,3 +56,30 @@ CREATE TABLE IF NOT EXISTS order_items (
     price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Admin Messages Table
+CREATE TABLE IF NOT EXISTS admin_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_name VARCHAR(255) NOT NULL DEFAULT "Admin",
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Admin Feedback Table
+CREATE TABLE IF NOT EXISTS admin_feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    admin_name VARCHAR(255) NOT NULL DEFAULT "D&M'S Lechon House Owner",
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Notifications Table
+CREATE TABLE IF NOT EXISTS notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

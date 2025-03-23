@@ -43,6 +43,7 @@ body {
     font-size: 18px;
     font-weight: 600;
     transition: color 0.3s ease;
+    
 }
 
 .nav-links li a:hover {
@@ -73,34 +74,6 @@ body {
     transition: background 0.3s ease, padding 0.2s ease;
 }
 
-/* Header */
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 3px solid #ffc107;
-}
-
-header h1 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-header nav .btn {
-    font-size: 0.875rem;
-    padding: 8px 15px;
-}
-
-header .btn-danger {
-    font-size: 1.25rem;
-    padding: 12px 25px;
-    width: 150px;
-    text-align: center;
-}
 
 /* MENU SECTION */
 .menu-section {
@@ -414,3 +387,4 @@ header .btn-danger {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
+

@@ -33,6 +33,18 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $customer_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Fetch canceled orders for the logged-in customer
+$sql_canceled = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address 
+                 FROM orders o 
+                 JOIN order_items oi ON o.id = oi.order_id 
+                 JOIN clients c ON o.client_id = c.id 
+                 WHERE c.id = ? AND o.status = 'Cancelled'";
+
+$stmt_canceled = $conn->prepare($sql_canceled);
+$stmt_canceled->bind_param("i", $customer_id);
+$stmt_canceled->execute();
+$result_canceled = $stmt_canceled->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -42,14 +54,39 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order History</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="orderHistory.css">
+    <style>
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .order-header {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        .order-details {
+            margin-bottom: 8px;
+        }
+        .order-actions a {
+            margin-right: 8px;
+        }
+    </style>
 </head>
 <body>
-    <header class="bg-dark text-white p-3">
+    <header class="main-header">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1>Order History</h1>
+            <h1>DM'S Lechon House</h1>
             <nav>
-                <a href="homeDisplay.php" class="btn btn-light btn-sm">Home</a>
-                <a href="menuDisplay.php" class="btn btn-light btn-sm">Menu</a>
+                <a href="homeDisplay.php">Home</a>
+                <a href="menuDisplay.php">Menu</a>
+                <a href="orderHistory.php">Order History</a>
+                <a href="notifications.php">Notifications</a> <!-- Added link to notifications -->
+                <a href="ContactUs.php">Contact Us</a>
                 <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
             </nav>
         </div>
@@ -57,43 +94,57 @@ $result = $stmt->get_result();
 
     <div class="container mt-4">
         <h2 class="text-center mb-4">Your Order History</h2>
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order ID</th>
-                    <th>Item Name</th>
-                    <th>Price</th>
-                    <th>Order Date</th>
-                    <th>Delivery Option</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['order_id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['item_name']) . " (x" . htmlspecialchars($row['quantity']) . ")</td>";
-                        echo "<td>₱" . htmlspecialchars(number_format($row['price'], 2)) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='6' class='text-center'>No orders found.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='order-card'>";
+                echo "<div class='order-header'>Order #" . htmlspecialchars($row['order_id']) . " - " . htmlspecialchars($row['status']) . "</div>";
+                echo "<div class='order-details'>";
+                echo "<p><strong>Item:</strong> " . htmlspecialchars($row['item_name']) . " (x" . htmlspecialchars($row['quantity']) . ")</p>";
+                echo "<p><strong>Price:</strong> ₱" . htmlspecialchars(number_format($row['price'], 2)) . "</p>";
+                echo "<p><strong>Order Date:</strong> " . htmlspecialchars($row['order_date']) . "</p>";
+                echo "<p><strong>Delivery Option:</strong> " . htmlspecialchars($row['delivery_option']) . "</p>";
+                echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
+                echo "</div>";
+                echo "<div class='order-actions'>";
+                echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-primary btn-sm'>Edit</a>";
+                echo "<a href='cancelOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-danger btn-sm'>Cancel</a>";
+                echo "</div>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p class='text-center'>No active orders found.</p>";
+        }
+        ?>
+
+        <h2 class="text-center mt-5 mb-4">Cancelled Orders</h2>
+        <?php
+        if ($result_canceled->num_rows > 0) {
+            while ($row = $result_canceled->fetch_assoc()) {
+                echo "<div class='order-card'>";
+                echo "<div class='order-header'>Order #" . htmlspecialchars($row['order_id']) . " - " . htmlspecialchars($row['status']) . "</div>";
+                echo "<div class='order-details'>";
+                echo "<p><strong>Item:</strong> " . htmlspecialchars($row['item_name']) . " (x" . htmlspecialchars($row['quantity']) . ")</p>";
+                echo "<p><strong>Price:</strong> ₱" . htmlspecialchars(number_format($row['price'], 2)) . "</p>";
+                echo "<p><strong>Order Date:</strong> " . htmlspecialchars($row['order_date']) . "</p>";
+                echo "<p><strong>Delivery Option:</strong> " . htmlspecialchars($row['delivery_option']) . "</p>";
+                echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
+                echo "</div>";
+                echo "<div class='order-actions'>";
+                echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-success btn-sm'>Reorder</a>";
+                echo "</div>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p class='text-center'>No canceled orders found.</p>";
+        }
+        ?>
     </div>
 </body>
 </html>
 
 <?php
 $stmt->close();
+$stmt_canceled->close();
 $conn->close();
 ?>

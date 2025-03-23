@@ -1,53 +1,117 @@
+/* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
+    background-color: #fffaf0;
 }
 
-/* Header */
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 20px 0;
+/* Navbar */
+.navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 3px solid #ffc107;
+    padding: 60px 5%;
+    background-color: #8B0000;
+    color: white;
 }
 
-header h1 {
-    font-size: 1.75rem;
+/* Logo */
+.logo {
+    font-size: 40px;
     font-weight: bold;
+    color: white;
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: inline-flex;
+    justify-content: center;
+    flex-grow: 1; /* Center the links */
+    padding: 0;
     margin: 0;
 }
 
-header nav .btn {
-    font-size: 0.875rem;
+.nav-links li {
+    margin: 0 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #f7f7f7;
+    border-radius: 50px;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-links {
+        flex-direction: column;
+        padding-top: 10px;
+    }
+    .nav-links li {
+        margin: 10px 0;
+    }
+}
+/* Navbar Hover Effect */
+.nav-links li a:hover {
+    color: #ffcccb;
+     background: linear-gradient(to right, #b71c1c, #ff6b6b);
     padding: 8px 15px;
+    border-radius: 30px;
+    transition: background 0.3s ease, padding 0.2s ease;
 }
 
-header .btn-danger {
-    font-size: 1.25rem;
-    padding: 12px 25px;
-    width: 150px;
-    text-align: center;
-}
-
-.container {
+.contact-container {
     max-width: 600px;
     margin: 50px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    margin-bottom: 20px;
+.contact-container h2 {
     font-size: 24px;
+    font-weight: bold;
     color: #333;
-    text-align: center;
+}
+
+.contact-container .form-label {
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-container .form-control {
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-container .btn {
+    font-size: 16px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.contact-container .btn:hover {
+    background-color: #0056b3;
 }
 
 .contact-form label {

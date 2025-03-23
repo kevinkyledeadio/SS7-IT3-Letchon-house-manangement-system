@@ -94,13 +94,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     <script src="orderform.js"></script>
 </head>
 <body>
-    <header class="bg-dark text-white p-3">
+    <header class="main-header">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="text-center">DM'S Lechon House</h1>
+            <h1>DM'S Lechon House</h1>
             <nav>
-                <a href="homeDisplay.php" class="btn btn-light btn-sm">Home</a>
-                <a href="orderHistory.php" class="btn btn-light btn-sm">Order History</a>
-                <a href="ContactUs.php" class="btn btn-info btn-sm">Contact Us</a>
+                <a href="homeDisplay.php">Home</a>
+                <a href="menuDisplay.php">Menu</a>
+                <a href="orderHistory.php">Order History</a>
+                <a href="notifications.php">notifications</a> <!-- Added link to notifications -->
+                <a href="ContactUs.php">Contact Us</a>
                 <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
             </nav>
         </div>

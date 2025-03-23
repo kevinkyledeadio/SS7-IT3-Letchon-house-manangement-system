@@ -1,0 +1,27 @@
+.main-header {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    padding: 1rem 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+.main-header nav a {
+    margin: 0 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, background 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 30px;
+}
+
+.main-header nav a:hover {
+    color: #343a40;
+    background: rgba(255, 255, 255, 0.3);
+}

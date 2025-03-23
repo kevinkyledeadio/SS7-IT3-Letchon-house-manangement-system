@@ -62,7 +62,7 @@ $result_categories = $conn->query($sql_categories);
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="mb-0">Admin Dashboard</h1>
             <nav class="d-flex flex-grow-1 justify-content-center">
-                <a href="dashboard.php" class="btn btn-light btn-sm mx-2">Dashboard</a>
+                <a href="notifications.php" class="btn btn-light btn-sm mx-2">Notifications</a>
                 <a href="Order-list.php" class="btn btn-light btn-sm mx-2">Order List</a>
                 <a href="addFoodDisplay.php" class="btn btn-success btn-sm mx-2">Add Food</a>
             </nav>

@@ -50,24 +50,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="log-in.css"> <!-- Link to your CSS file -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+        }
+        .btn-primary, .btn-secondary {
+            border-radius: 20px;
+        }
+    </style>
+    <script>
+        function toggleForm(form) {
+            document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
+        }
+    </script>
 </head>
-<body>
-    <div class="login-container">
-        <h2>Admin Login</h2>
-        <form action="log-in.php" method="post">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-5" style="width: 400px;">
+        <h2 class="text-center mb-4">Admin Login</h2>
+        <form id="login-form" method="POST" action="">
+            <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-control rounded-pill" required>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="password" class="form-control rounded-pill" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill">Login</button>
         </form>
-        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-        <p>Don't have an account? <a href="register.php">Register here</a>.</p>
+        <p class="text-center mt-3">Don't have an account? <a href="register.php">Register here</a>.</p>
     </div>
 </body>
 </html>

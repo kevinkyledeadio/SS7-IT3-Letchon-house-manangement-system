@@ -10,11 +10,25 @@
     // Include the database connection file
     require_once 'db_connection.php';
 
-    // Fetch all orders
-    $sql = "SELECT o.id, c.name AS client_name, o.total_price, o.order_date, o.delivery_option, o.status, o.address, o.phone_number, o.delivery_datetime 
-            FROM orders o 
-            JOIN clients c ON o.client_id = c.id";
-    $result = $conn->query($sql);
+    // Handle search functionality
+    $search_query = '';
+    if (isset($_GET['search'])) {
+        $search_query = $_GET['search'];
+        $sql = "SELECT o.id, c.name AS client_name, o.total_price, o.order_date, o.delivery_option, o.status, o.address, o.phone_number, o.delivery_datetime 
+                FROM orders o 
+                JOIN clients c ON o.client_id = c.id 
+                WHERE c.name LIKE ? OR o.id LIKE ?";
+        $stmt = $conn->prepare($sql);
+        $search_term = '%' . $search_query . '%';
+        $stmt->bind_param("ss", $search_term, $search_term);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } else {
+        $sql = "SELECT o.id, c.name AS client_name, o.total_price, o.order_date, o.delivery_option, o.status, o.address, o.phone_number, o.delivery_datetime 
+                FROM orders o 
+                JOIN clients c ON o.client_id = c.id";
+        $result = $conn->query($sql);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="order-list.css"> <!-- Link to external CSS file -->
 </head>
 <body>
     <header class="bg-dark text-white p-3">
@@ -37,73 +52,87 @@
     </header>
 
     <div class="container mt-4">
-        <h2 class="text-center">Order List</h2>
-        <table class="table table-striped table-hover shadow rounded">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order ID</th>
-                    <th>Client Name</th>
-                    <th>Total Price</th>
-                    <th>Order Date</th>
-                    <th>Delivery Option</th>
-                    <th>Scheduled Delivery/Pickup</th>
-                    <th>Status</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result && $result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . htmlspecialchars($row['client_name']) . "</td>";
-                        echo "<td>₱" . htmlspecialchars(number_format($row['total_price'], 2)) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['delivery_datetime']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
-                        if ($row["status"] == "Completed") {
-                            // If the order is completed, show the "Set to Pending" button
-                            echo '<td><button class="btn btn-warning" id="setPending" data-value="' . $row["id"] . '">Set to Pending</button></td>';
-                        } else {
-                            // If the order is not completed, show the "Complete Order" button
-                            echo '<td><button class="btn btn-success" id="completeOrder" data-value="' . $row["id"] . '">Complete Order</button></td>';
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <form method="GET" action="" class="d-flex">
+                <input type="text" name="search" class="form-control w-25" placeholder="Search for an order..." value="<?= htmlspecialchars($search_query) ?>">
+                <button type="submit" class="btn btn-primary ms-2">Search</button>
+            </form>
+        </div>
+        <div class="table-container">
+            <h2 class="text-center mb-4">Order List</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Total Price</th>
+                        <th>Order Date</th>
+                        <th>Delivery Option</th>
+                        <th>Scheduled Delivery/Pickup</th>
+                        <th>Status</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row['id'] . "</td>";
+                            echo "<td>" . htmlspecialchars($row['client_name']) . "</td>";
+                            echo "<td>₱" . htmlspecialchars(number_format($row['total_price'], 2)) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['delivery_option']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['delivery_datetime']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['address']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
+                            echo '<td class="table-actions">';
+                            if ($row["status"] == "Completed") {
+                                echo '<button class="btn btn-warning btn-sm me-2" data-value="' . $row['id'] . '">Set to Pending</button>';
+                            } else {
+                                echo '<button class="btn btn-success btn-sm me-2" data-value="' . $row['id'] . '">Complete Order</button>';
+                            }
+                            echo '<button class="btn btn-danger btn-sm" data-value="' . $row['id'] . '">Remove</button>';
+                            echo '</td>';
+                            echo "</tr>";
                         }
-                        echo "</tr>";
+                    } else {
+                        echo "<tr><td colspan='10' class='text-center'>No orders found.</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='9' class='text-center'>No orders found.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+                    ?>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <p class="mb-0">Showing 1 to 10 of 50 entries</p>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         $(document).ready(function() {
             // Complete order
-            $('#completeOrder').on('click', function(e){
+            $(document).on('click', '.btn-success', function(e) {
                 if (confirm('Are you sure you want to complete this order?')) {
-                    // Get the order ID through the data-value attribute
                     var orderId = $(this).data('value');
-
-                    // Send an AJAX request
                     $.ajax({
                         url: 'complete-order.php',
                         type: 'POST',
-                        data: {
-                            orderId: orderId
-                        },
+                        data: { orderId: orderId },
                         success: function(response) {
                             if (response === 'success') {
-                                alert('Order setted to completed successfully.');
+                                alert('Order set to completed successfully.');
                                 location.reload();
                             } else {
                                 alert('An error occurred. Please try again.');
@@ -111,23 +140,19 @@
                         }
                     });
                 }
-            })
+            });
 
-            $('#setPending').on('click', function(e){
+            // Set to pending
+            $(document).on('click', '.btn-warning', function(e) {
                 if (confirm('Are you sure you want to set this order to pending?')) {
-                    // Get the order ID through the data-value attribute
                     var orderId = $(this).data('value');
-
-                    // Send an AJAX request
                     $.ajax({
                         url: 'set-pending.php',
                         type: 'POST',
-                        data: {
-                            orderId: orderId
-                        },
+                        data: { orderId: orderId },
                         success: function(response) {
                             if (response === 'success') {
-                                alert('Order setted to pending successfully.');
+                                alert('Order set to pending successfully.');
                                 location.reload();
                             } else {
                                 alert('An error occurred. Please try again.');
@@ -135,7 +160,29 @@
                         }
                     });
                 }
-            })
+            });
+
+            // Remove order from order list
+            $(document).on('click', '.btn-danger', function(e) {
+                if (confirm('Are you sure you want to remove this order?')) {
+                    var orderId = $(this).data('value');
+
+                    $.ajax({
+                        url: 'remove-orderlist.php',
+                        type: 'POST',
+                        data: { orderId: orderId },
+                        success: function(response) {
+                            console.log(response);
+                            if (response === 'success') {
+                                alert('Order removed successfully.');
+                                location.reload();
+                            } else {
+                                alert('An error occurred. Please try again.');
+                            }
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>

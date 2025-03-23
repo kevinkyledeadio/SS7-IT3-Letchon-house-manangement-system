@@ -1,0 +1,181 @@
+/* BODY STYLE */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* HEADER */
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* CONTAINER */
+.container {
+    margin-top: 30px;
+    max-width: 95%; /* Adjust container width to prevent overflow */
+}
+
+/* TABLE CARD STYLE */
+.table-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+    margin-top: 30px;
+    border: 1px solid #dee2e6;
+    overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+}
+
+/* TABLE */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1200px; /* Ensure table has enough width for all columns */
+    border-radius: 8px;
+    overflow: hidden;
+    table-layout: auto; /* Allow columns to adjust based on content */
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 14px; /* Adjust padding for better fit */
+    border-bottom: 2px solid #dee2e6;
+    word-wrap: break-word; /* Prevent text overflow */
+    font-size: 0.9rem; /* Adjust font size for better readability */
+}
+
+/* TABLE HEAD */
+.table thead {
+    background-color: #343a40;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* TABLE BODY STYLING */
+.table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background 0.3s ease-in-out;
+}
+
+/* REMOVE SLIDE-IN ANIMATION */
+.table tbody tr {
+    animation: none; /* Disable slide-in animation */
+}
+
+/* BUTTONS */
+.btn {
+    font-size: 0.85rem; /* Adjust button font size */
+    padding: 8px 16px; /* Adjust button padding */
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* FLEX BUTTON GROUP */
+.table-actions {
+    display: flex;
+    justify-content: center; /* Center-align buttons */
+    gap: 10px; /* Maintain spacing between buttons */
+    padding: 10px 0; /* Add consistent padding */
+    opacity: 1; /* Ensure buttons are always visible */
+    transform: none; /* Remove sliding effect */
+    transition: none; /* Disable transition effects */
+}
+
+/* Remove hover-specific styles for table-actions */
+.table tbody tr:hover .table-actions {
+    opacity: 1; /* Ensure buttons remain visible */
+    transform: none; /* No sliding effect */
+}
+
+/* SEARCH BAR */
+input[type="text"] {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* PAGINATION */
+.pagination .page-link {
+    color: #343a40;
+    font-size: 0.85rem; /* Adjust pagination font size */
+    padding: 6px 12px;
+}
+
+.pagination .page-link:hover {
+    background-color: #f1f1f1;
+    color: #343a40;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .table-container {
+        padding: 15px;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+    input[type="text"] {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+    .pagination .page-link {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+}
