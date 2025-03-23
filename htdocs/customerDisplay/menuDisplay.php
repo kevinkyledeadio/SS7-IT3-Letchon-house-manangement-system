@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="MenuDisplay.css">
+    <script src="orderform.js"></script>
 </head>
 <body>
     <header class="bg-dark text-white p-3">

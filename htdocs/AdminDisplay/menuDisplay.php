@@ -55,7 +55,7 @@ $result_categories = $conn->query($sql_categories);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Menu Display</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="menuDisplay.css">
+    <link rel="stylesheet" href="menuDsiplay.css">
 </head>
 <body>
     <header class="bg-dark text-white py-4">
