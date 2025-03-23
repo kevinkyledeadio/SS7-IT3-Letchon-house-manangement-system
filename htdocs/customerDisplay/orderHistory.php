@@ -34,7 +34,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 // Fetch canceled orders for the logged-in customer
-$sql_canceled = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address 
+$sql_canceled = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address, o.phone_number 
                  FROM orders o 
                  JOIN order_items oi ON o.id = oi.order_id 
                  WHERE o.client_id = ? AND o.status = 'Cancelled'";
@@ -105,16 +105,6 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
                 echo "</div>";
                 echo "<div class='order-actions'>";
-                echo "<form method='POST' action='reorder.php' style='display:inline;'>";
-                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
-                echo "<input type='hidden' name='item_name' value='" . htmlspecialchars($row['item_name']) . "'>";
-                echo "<input type='hidden' name='quantity' value='" . htmlspecialchars($row['quantity']) . "'>";
-                echo "<input type='hidden' name='price' value='" . htmlspecialchars($row['price']) . "'>";
-                echo "<input type='hidden' name='order_date' value='" . htmlspecialchars($row['order_date']) . "'>";
-                echo "<input type='hidden' name='delivery_option' value='" . htmlspecialchars($row['delivery_option']) . "'>";
-                echo "<input type='hidden' name='address' value='" . htmlspecialchars($row['address']) . "'>";
-                echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
-                echo "</form>";
                 echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-primary btn-sm'>Edit</a>";
                 echo "<a href='cancelOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-danger btn-sm'>Cancel</a>";
                 echo "</div>";
@@ -137,21 +127,12 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<p><strong>Order Date:</strong> " . htmlspecialchars($row['order_date']) . "</p>";
                 echo "<p><strong>Delivery Option:</strong> " . htmlspecialchars($row['delivery_option']) . "</p>";
                 echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
+                echo "<p><strong>Phone Number:</strong> " . htmlspecialchars($row['phone_number']) . "</p>";
                 echo "</div>";
                 echo "<div class='order-actions'>";
                 echo "<form method='POST' action='reorder.php' style='display:inline;'>";
                 echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
-                echo "<input type='hidden' name='item_name' value='" . htmlspecialchars($row['item_name']) . "'>";
-                echo "<input type='hidden' name='quantity' value='" . htmlspecialchars($row['quantity']) . "'>";
-                echo "<input type='hidden' name='price' value='" . htmlspecialchars($row['price']) . "'>";
-                echo "<input type='hidden' name='order_date' value='" . htmlspecialchars($row['order_date']) . "'>";
-                echo "<input type='hidden' name='delivery_option' value='" . htmlspecialchars($row['delivery_option']) . "'>";
-                echo "<input type='hidden' name='address' value='" . htmlspecialchars($row['address']) . "'>";
                 echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
-                echo "</form>";
-                echo "<form method='POST' action='removeOrder.php' style='display:inline;'>";
-                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
-                echo "<button type='submit' class='btn btn-warning btn-sm'>Remove</button>";
                 echo "</form>";
                 echo "</div>";
                 echo "</div>";

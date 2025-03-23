@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
@@ -21,39 +26,24 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debug POST data
+    var_dump($_POST);
+
     $customer_id = $_SESSION['customer_id'];
     $order_id = intval($_POST['order_id']);
-    $item_name = htmlspecialchars($_POST['item_name']);
-    $quantity = intval($_POST['quantity']);
-    $price = floatval($_POST['price']);
-    $total_price = $quantity * $price;
-    $order_date = htmlspecialchars($_POST['order_date']);
-    $order_time = htmlspecialchars($_POST['order_time']);
-    $delivery_option = htmlspecialchars($_POST['delivery_option']);
-    $address = htmlspecialchars($_POST['address']);
 
-    // Validate required fields
-    if (empty($item_name) || $quantity <= 0 || $price <= 0 || empty($delivery_option) || empty($address)) {
-        die("Invalid input data.");
+    // Update the status of the canceled order to "Pending"
+    $sql_update_status = "UPDATE orders SET status = 'Pending' WHERE id = ? AND client_id = ? AND status = 'Cancelled'";
+    $stmt_update_status = $conn->prepare($sql_update_status);
+    if (!$stmt_update_status) {
+        die("Error preparing update query: " . $conn->error);
+    }
+    $stmt_update_status->bind_param("ii", $order_id, $customer_id);
+    if (!$stmt_update_status->execute()) {
+        die("Error executing update query: " . $stmt_update_status->error);
     }
 
-    // Combine order date and time
-    $order_datetime = $order_date . ' ' . $order_time;
-
-    // Insert into orders table
-    $sql_order = "INSERT INTO orders (client_id, total_price, order_date, delivery_option, address, status) VALUES (?, ?, ?, ?, ?, 'Pending')";
-    $stmt_order = $conn->prepare($sql_order);
-    $stmt_order->bind_param("idsss", $customer_id, $total_price, $order_datetime, $delivery_option, $address);
-    $stmt_order->execute();
-    $new_order_id = $stmt_order->insert_id;
-
-    // Insert into order_items table
-    $sql_order_item = "INSERT INTO order_items (order_id, item_name, quantity, price) VALUES (?, ?, ?, ?)";
-    $stmt_order_item = $conn->prepare($sql_order_item);
-    $stmt_order_item->bind_param("isid", $new_order_id, $item_name, $quantity, $price);
-    $stmt_order_item->execute();
-
-    // Redirect to order history
+    // Redirect back to order history
     header("Location: orderHistory.php?message=Reorder successful");
     exit();
 }
@@ -101,6 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
                 <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" required>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
             <a href="orderHistory.php" class="btn btn-secondary">Cancel</a>
