@@ -134,6 +134,10 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
                 echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
                 echo "</form>";
+                echo "<form method='POST' action='removeOrder.php' style='display:inline;'>";
+                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
+                echo "<button type='submit' class='btn btn-danger btn-sm'>Remove</button>";
+                echo "</form>";
                 echo "</div>";
                 echo "</div>";
             }
