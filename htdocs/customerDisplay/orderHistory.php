@@ -26,8 +26,7 @@ $customer_id = $_SESSION['customer_id'];
 $sql = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address 
         FROM orders o 
         JOIN order_items oi ON o.id = oi.order_id 
-        JOIN clients c ON o.client_id = c.id 
-        WHERE c.id = ?";
+        WHERE o.client_id = ?";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $customer_id);
@@ -38,8 +37,7 @@ $result = $stmt->get_result();
 $sql_canceled = "SELECT o.id AS order_id, o.total_price, o.order_date, o.delivery_option, o.status, oi.item_name, oi.quantity, oi.price, o.address 
                  FROM orders o 
                  JOIN order_items oi ON o.id = oi.order_id 
-                 JOIN clients c ON o.client_id = c.id 
-                 WHERE c.id = ? AND o.status = 'Cancelled'";
+                 WHERE o.client_id = ? AND o.status = 'Cancelled'";
 
 $stmt_canceled = $conn->prepare($sql_canceled);
 $stmt_canceled->bind_param("i", $customer_id);
@@ -107,6 +105,16 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
                 echo "</div>";
                 echo "<div class='order-actions'>";
+                echo "<form method='POST' action='reorder.php' style='display:inline;'>";
+                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
+                echo "<input type='hidden' name='item_name' value='" . htmlspecialchars($row['item_name']) . "'>";
+                echo "<input type='hidden' name='quantity' value='" . htmlspecialchars($row['quantity']) . "'>";
+                echo "<input type='hidden' name='price' value='" . htmlspecialchars($row['price']) . "'>";
+                echo "<input type='hidden' name='order_date' value='" . htmlspecialchars($row['order_date']) . "'>";
+                echo "<input type='hidden' name='delivery_option' value='" . htmlspecialchars($row['delivery_option']) . "'>";
+                echo "<input type='hidden' name='address' value='" . htmlspecialchars($row['address']) . "'>";
+                echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
+                echo "</form>";
                 echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-primary btn-sm'>Edit</a>";
                 echo "<a href='cancelOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-danger btn-sm'>Cancel</a>";
                 echo "</div>";
@@ -131,7 +139,20 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
                 echo "</div>";
                 echo "<div class='order-actions'>";
-                echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-success btn-sm'>Reorder</a>";
+                echo "<form method='POST' action='reorder.php' style='display:inline;'>";
+                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
+                echo "<input type='hidden' name='item_name' value='" . htmlspecialchars($row['item_name']) . "'>";
+                echo "<input type='hidden' name='quantity' value='" . htmlspecialchars($row['quantity']) . "'>";
+                echo "<input type='hidden' name='price' value='" . htmlspecialchars($row['price']) . "'>";
+                echo "<input type='hidden' name='order_date' value='" . htmlspecialchars($row['order_date']) . "'>";
+                echo "<input type='hidden' name='delivery_option' value='" . htmlspecialchars($row['delivery_option']) . "'>";
+                echo "<input type='hidden' name='address' value='" . htmlspecialchars($row['address']) . "'>";
+                echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
+                echo "</form>";
+                echo "<form method='POST' action='removeOrder.php' style='display:inline;'>";
+                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
+                echo "<button type='submit' class='btn btn-warning btn-sm'>Remove</button>";
+                echo "</form>";
                 echo "</div>";
                 echo "</div>";
             }

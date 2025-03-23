@@ -37,16 +37,16 @@ $result = $conn->query($sql);
 </head>
 <body>
     <header class="main-header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1>DM'S Lechon House</h1>
-            <nav>
+        <div class="container d-flex justify-content-between align-items-left">
+            <h1 class="logo">DM'S Lechon House</h1>
+            <nav class="d-flex justify-content-center">
                 <a href="homeDisplay.php">Home</a>
                 <a href="menuDisplay.php">Menu</a>
                 <a href="orderHistory.php">Order History</a>
-                <a href="notifications.php">Notifications</a> <!-- Added link to notifications -->
+                <a href="notifications.php">Notifications</a>
                 <a href="ContactUs.php">Contact Us</a>
-                <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
             </nav>
+            <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
         </div>
     </header>
 

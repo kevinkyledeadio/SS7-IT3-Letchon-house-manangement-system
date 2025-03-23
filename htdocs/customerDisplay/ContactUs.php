@@ -55,25 +55,39 @@ $conn->close();
         </div>
     </header>
 
-    <div class="contact-container p-4 shadow-lg rounded bg-light">
-        <h2 class="text-center mb-4">Contact Us</h2>
-        <?php if (isset($success)) echo "<div class='alert alert-success'>$success</div>"; ?>
-        <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
-        <form method="POST" action="">
-            <div class="mb-3">
-                <label for="name" class="form-label fw-bold">Name:</label>
-                <input type="text" id="name" name="name" class="form-control rounded-pill" required>
+    <div class="container mt-5">
+        <div class="contact-container p-4 shadow-lg rounded bg-light">
+            <h2 class="text-center mb-4">Contact Us</h2>
+            <?php if (isset($success)) echo "<div class='alert alert-success'>$success</div>"; ?>
+            <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
+            <form method="POST" action="" class="text-center">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control rounded-pill w-75 mx-auto" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control rounded-pill w-75 mx-auto" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label fw-bold">Message:</label>
+                    <textarea id="message" name="message" class="form-control rounded w-75 mx-auto" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-50 rounded-pill mx-auto d-block">Send Message</button>
+            </form>
+            <div class="social-icons text-center mt-4">
+                <h5>Connect with us:</h5>
+                <a href="https://facebook.com" target="_blank" class="me-3">
+                    <img src="facebook-icon.png" alt="Facebook" width="30">
+                </a>
+                <a href="mailto:example@gmail.com" class="me-3">
+                    <img src="gmail-icon.png" alt="Gmail" width="30">
+                </a>
+                <a href="tel:+1234567890">
+                    <img src="phone-icon.png" alt="Phone" width="30">
+                </a>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label fw-bold">Email:</label>
-                <input type="email" id="email" name="email" class="form-control rounded-pill" required>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label fw-bold">Message:</label>
-                <textarea id="message" name="message" class="form-control rounded" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 rounded-pill">Send Message</button>
-        </form>
+        </div>
     </div>
 </body>
 </html>
