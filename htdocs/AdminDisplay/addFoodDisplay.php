@@ -13,25 +13,64 @@ if (!isset($_SESSION['admin_username'])) {
 // Include the database connection file
 require_once 'db_connection.php';
 
+// Fetch categories for the dropdown
+$sql_categories = "SELECT DISTINCT category FROM menu_items";
+$result_categories = $conn->query($sql_categories);
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['foodName'] ?? '';
     $price = $_POST['price'] ?? 0;
     $description = $_POST['description'] ?? '';
-    $imageUrl = $_POST['imageUrl'] ?? '';
-    $category = $_POST['category'] ?? 'Uncategorized'; // Provide a default value for category
+    $category = $_POST['category'] ?? 'Uncategorized'; // Default category
 
-    $sql = "INSERT INTO menu_items (name, description, price, image_url, category) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssdss", $name, $description, $price, $imageUrl, $category);
-
-    if ($stmt->execute()) {
-        $success = "Food added successfully!";
-    } else {
-        $error = "Failed to add food. Please try again.";
+    // Check if a new category is provided
+    if (!empty($_POST['newCategory'])) {
+        $newCategory = $_POST['newCategory'];
+        $sql_new_category = "INSERT INTO menu_items (category) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM menu_items WHERE category = ?)";
+        $stmt_new_category = $conn->prepare($sql_new_category);
+        $stmt_new_category->bind_param("ss", $newCategory, $newCategory);
+        $stmt_new_category->execute();
+        $stmt_new_category->close();
+        $category = $newCategory; // Use the new category
     }
 
-    $stmt->close();
+    // Handle file upload
+    if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = 'uploads/';
+        
+        // Ensure the uploads directory exists
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0777, true)) {
+                $error = "Failed to create upload directory.";
+            }
+        }
+
+        if (!isset($error)) {
+            $imagePath = $uploadDir . basename($_FILES['imageFile']['name']);
+            if (move_uploaded_file($_FILES['imageFile']['tmp_name'], $imagePath)) {
+                $imageUrl = $imagePath;
+            } else {
+                $error = "Failed to upload image.";
+            }
+        }
+    } else {
+        $error = "Please upload a valid image.";
+    }
+
+    if (!isset($error)) {
+        $sql = "INSERT INTO menu_items (name, description, price, image_url, category) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssdss", $name, $description, $price, $imageUrl, $category);
+
+        if ($stmt->execute()) {
+            $success = "Food added successfully!";
+        } else {
+            $error = "Failed to add food. Please try again.";
+        }
+
+        $stmt->close();
+    }
 }
 
 $conn->close();
@@ -60,7 +99,7 @@ $conn->close();
         <h2 class="text-center">Add Food</h2>
         <?php if (isset($success)) echo "<div class='alert alert-success'>$success</div>"; ?>
         <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
-        <form action="" method="POST" class="border p-4 bg-light shadow rounded" style="max-width: 600px; margin: 0 auto;">
+        <form action="" method="POST" enctype="multipart/form-data" class="border p-4 bg-light shadow rounded" style="max-width: 600px; margin: 0 auto;">
             <div class="mb-3">
                 <label for="foodName" class="form-label">Food Name</label>
                 <input type="text" class="form-control" id="foodName" name="foodName" required>
@@ -74,12 +113,25 @@ $conn->close();
                 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <label for="imageUrl" class="form-label">Image URL</label>
-                <input type="url" class="form-control" id="imageUrl" name="imageUrl" required>
+                <label for="imageFile" class="form-label">Image</label>
+                <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" required>
             </div>
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <input type="text" class="form-control" id="category" name="category" required>
+                <select class="form-control" id="category" name="category">
+                    <option value="" disabled selected>Select a category</option>
+                    <?php
+                    if ($result_categories->num_rows > 0) {
+                        while ($category = $result_categories->fetch_assoc()) {
+                            echo '<option value="' . htmlspecialchars($category['category']) . '">' . htmlspecialchars($category['category']) . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="newCategory" class="form-label">Or Add New Category</label>
+                <input type="text" class="form-control" id="newCategory" name="newCategory" placeholder="Enter new category">
             </div>
             <button type="submit" class="btn btn-primary w-100">Add Food</button>
         </form>

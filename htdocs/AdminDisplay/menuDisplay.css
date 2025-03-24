@@ -84,11 +84,6 @@ body {
     }
 }
 
-
-
-
-
-
 /* Menu Filter */
 .menu-filter {
     text-align: center;
@@ -134,4 +129,23 @@ body {
 
 .container .d-flex .btn-success {
     margin-left: auto;
+}
+
+/* File Input Styles */
+form .form-control[type="file"] {
+    padding: 5px;
+    font-size: 0.9rem;
+}
+
+/* Dropdown Styles */
+form select.form-control {
+    font-size: 0.9rem;
+    padding: 8px;
+}
+
+/* New Category Input Styles */
+form .form-control[type="text"]#newCategory {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    padding: 8px;
 }
