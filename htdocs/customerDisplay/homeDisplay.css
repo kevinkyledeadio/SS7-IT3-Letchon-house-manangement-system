@@ -101,6 +101,7 @@ body {
     letter-spacing: 3px;
     position: relative;
     margin-bottom: 10px;
+    animation: fadeInHeading 1s ease-in-out forwards;
 }
 
 /* Underline Effect */
@@ -124,13 +125,16 @@ body {
 }
 
 /* Fade-in Animation */
-@keyframes fadeIn {
-    100% {
+@keyframes fadeInHeading {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
-
 
 .menu-filter {
     display: flex;
@@ -420,3 +424,153 @@ body {
     margin-left: auto;
 }
 
+/* Order Form Modal Styling */
+.order-form-overlay,
+.order-form {
+    z-index: 1000; /* Modal's z-index */
+}
+
+.order-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    display: none;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Box */
+.order-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 30px;
+    width: 420px;
+    max-width: 90%;
+    min-height: 500px;  /* Adjusted minimum height */
+    max-height: 80vh;   /* Ensures it doesn't exceed the viewport */
+    overflow-y: auto;   /* Enables scrolling if needed */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1001;
+    animation: fadeInModal 0.3s ease-in-out forwards;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    background: #d60000;
+}
+
+/* Form Styling */
+.order-form h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Input Fields */
+.order-form input, 
+.order-form textarea, 
+.order-form select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* Adjusting Input Heights */
+.order-form input,
+.order-form select {
+    height: 45px;
+}
+
+.order-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Focus Effect */
+.order-form input:focus,
+.order-form textarea:focus,
+.order-form select:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background: #218838;
+}
+
+/* Fade-in Animation */
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Mobile-Friendly Design */
+@media (max-width: 480px) {
+    .order-form {
+        width: 95%;
+        padding: 20px;
+        min-height: 550px; /* Slightly taller for mobile */
+        max-height: 85vh;   /* Ensures it fits within screen */
+    }
+
+    .close-btn {
+        top: 8px;
+        right: 8px;
+        padding: 5px 10px;
+    }
+
+    .submit-btn {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

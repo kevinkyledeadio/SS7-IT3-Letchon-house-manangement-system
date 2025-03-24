@@ -1,23 +1,13 @@
 <?php
-include 'db_connect.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-$sql = "SELECT admin_name, message, created_at FROM admin_messages ORDER BY created_at DESC LIMIT 5";
-$result = $conn->query($sql);
+include '../AdminDisplay/db_connection.php';
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='notification'>";
-        echo "<strong>{$row['admin_name']}:</strong> {$row['message']} <br>";
-        echo "<small>{$row['created_at']}</small>";
-        echo "</div><hr>";
-    }
-} else {
-    echo "<p>No new notifications.</p>";
-}
-
-$conn->close();
+// Fetch admin feedback
+$sql_feedback = "SELECT admin_name, message, created_at FROM admin_feedback ORDER BY created_at DESC LIMIT 5";
+$result_feedback = $conn->query($sql_feedback);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,48 +34,23 @@ $conn->close();
 
     <div class="container mt-4">
         <h2 class="text-center mb-4">Notifications</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Message</th>
-                    <th>Received At</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Display admin feedback -->
-                <?php
-                if ($result_feedback->num_rows > 0) {
-                    while ($row = $result_feedback->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td><strong>" . htmlspecialchars($row['admin_name']) . ":</strong> " . htmlspecialchars($row['message']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3' class='text-center'>No feedback found.</td></tr>";
+        <div>
+            <!-- Display admin feedback -->
+            <?php
+            if ($result_feedback->num_rows > 0) {
+                while ($row = $result_feedback->fetch_assoc()) {
+                    echo "<div class='notification'>";
+                    echo "<strong>" . htmlspecialchars($row['admin_name']) . ":</strong> " . htmlspecialchars($row['message']) . " <br>";
+                    echo "<small>" . htmlspecialchars($row['created_at']) . "</small>";
+                    echo "</div><hr>";
                 }
+            } else {
+                echo "<p>No new feedback notifications.</p>";
+            }
 
-                // Display admin messages
-                if ($result_admin_messages->num_rows > 0) {
-                    while ($row = $result_admin_messages->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td><strong>" . htmlspecialchars($row['admin_name']) . ":</strong> " . htmlspecialchars($row['message']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3' class='text-center'>No admin messages found.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+            $conn->close();
+            ?>
+        </div>
     </div>
 </body>
 </html>
-<?php
-$stmt_feedback->close();
-$conn->close();
-?>

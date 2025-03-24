@@ -134,7 +134,7 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
                 echo "<button type='submit' class='btn btn-success btn-sm'>Reorder</button>";
                 echo "</form>";
-                echo "<form method='POST' action='removeOrder.php' style='display:inline;'>";
+                echo "<form method='POST' action='removeOrder.php' style='display:inline;' onsubmit='return confirmRemove();'>";
                 echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
                 echo "<button type='submit' class='btn btn-danger btn-sm'>Remove</button>";
                 echo "</form>";
@@ -145,6 +145,11 @@ $result_canceled = $stmt_canceled->get_result();
             echo "<p class='text-center'>No canceled orders found.</p>";
         }
         ?>
+        <script>
+            function confirmRemove() {
+                return confirm("Are you sure you want to remove this order?");
+            }
+        </script>
     </div>
 </body>
 </html>

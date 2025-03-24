@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 session_start();
 
 // Redirect to login page if the admin is not logged in
@@ -31,10 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price = $_POST['price'];
     $category = $_POST['category'];
     $image_url = $_POST['image_url'];
+    $featured = isset($_POST['featured']) ? 1 : 0; // Check if the 'featured' checkbox is checked
 
-    $sql = "UPDATE menu_items SET name = ?, description = ?, price = ?, category = ?, image_url = ? WHERE id = ?";
+    $sql = "UPDATE menu_items SET name = ?, description = ?, price = ?, category = ?, image_url = ?, is_featured = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssdssi", $name, $description, $price, $category, $image_url, $id);
+    $stmt->bind_param("ssdssii", $name, $description, $price, $category, $image_url, $featured, $id);
 
     if ($stmt->execute()) {
         header("Location: menuDisplay.php");
@@ -87,6 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="image_url" class="form-label">Image URL</label>
                 <input type="url" class="form-control" id="image_url" name="image_url" value="<?= htmlspecialchars($menuItem['image_url']) ?>" required>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="featured" name="featured" <?= $menuItem['is_featured'] ? 'checked' : '' ?>>
+                <label class="form-check-label" for="featured">Featured</label>
             </div>
             <button type="submit" class="btn btn-primary w-100">Update</button>
         </form>

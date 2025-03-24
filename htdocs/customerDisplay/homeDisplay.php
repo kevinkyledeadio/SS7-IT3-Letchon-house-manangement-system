@@ -23,6 +23,54 @@ if ($conn->connect_error) {
 // Fetch featured menu items
 $sql = "SELECT * FROM menu_items WHERE is_featured = 1";
 $result = $conn->query($sql);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
+    $customer_id = $_SESSION['customer_id'];
+    $menu_item_id = $_POST['menu_item_id'];
+    $quantity = $_POST['quantity'];
+    $delivery_option = $_POST['delivery_option'];
+    $address = $_POST['address'];
+    $phone_number = $_POST['phone_number'];
+
+    // Fetch client ID
+    $sql_client = "SELECT * FROM clients WHERE id = ?";
+    $stmt_client = $conn->prepare($sql_client);
+    $stmt_client->bind_param("i", $customer_id);
+    $stmt_client->execute();
+    $result_client = $stmt_client->get_result();
+    $client = $result_client->fetch_assoc();
+
+
+    // Fetch menu item details
+    $sql_item = "SELECT name, price FROM menu_items WHERE id = ?";
+    $stmt_item = $conn->prepare($sql_item);
+    $stmt_item->bind_param("i", $menu_item_id);
+    $stmt_item->execute();
+    $result_item = $stmt_item->get_result();
+    $item = $result_item->fetch_assoc();
+    $item_name = $item['name'];
+    $item_price = $item['price'];
+    $total_price = $item_price * $quantity;
+    $DateTime_Delivery = $_POST['delivery_datetime'];
+
+    // Insert into orders table
+    $sql_order = "INSERT INTO orders (client_id, total_price, delivery_option, address, phone_number, delivery_datetime) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt_order = $conn->prepare($sql_order);
+    $stmt_order->bind_param("idssss", $customer_id, $total_price, $delivery_option, $address, $phone_number, $DateTime_Delivery);
+    $stmt_order->execute();
+
+    $customer_placed_orderID = $stmt_order->insert_id;
+
+    // Insert into order_items table
+    $sql_order_item = "INSERT INTO order_items (order_id, item_name, quantity, price) VALUES (?, ?, ?, ?)";
+    $stmt_order_item = $conn->prepare($sql_order_item);
+    $stmt_order_item->bind_param("isid", $customer_placed_orderID, $item_name, $quantity, $item_price);
+    $stmt_order_item->execute();
+
+    // Redirect to order history
+    header("Location: orderHistory.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +79,15 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DM'S Lechon House - Home</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css">
+
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="homeDisplay.css">
+
+    <script src="orderform.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -60,7 +114,7 @@ $result = $conn->query($sql);
             <div class="hero-text">
                 <h1>Order Your Best Food Anytime</h1>
                 <p>Hey, Our delicious food is waiting for you.<br>We are always near you with fresh items of food.</p>
-                <a href="Menu.html" class="hero-btn">Explore Menu</a>
+                <a href="menuDisplay.php" class="hero-btn">Explore Menu</a>
             </div>
             <div class="hero-image">
                 <img src="https://i.pinimg.com/736x/38/08/f5/3808f53a985580a55bf49dcc29beec89.jpg" alt="Delicious food">
@@ -74,63 +128,62 @@ $result = $conn->query($sql);
         </div>
 
         <div class="menu-container">
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/236x/21/40/31/214031438b8bf201bcf76d13fe664c4d.jpg" alt="Lechon Baboy">
-                <div class="menu-details">
-                    <h3>whole lechon Baboy</h3>
-                    <p>30-kilos Traditional Filipino roasted pig with crispy skin.</p>
-                    <div class="price-order">
-                        <span class="price">₱15,000</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/736x/d5/23/93/d52393d4892b9e8851e04738f6cd651f.jpg" alt="Lechon Belly">
-                <div class="menu-details">
-                    <h3>Lechon Belly</h3>
-                    <p>Boneless, herb-infused roasted pork belly.</p>
-                    <div class="price-order">
-                        <span class="price">₱1,800</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://i.pinimg.com/236x/f7/21/5d/f7215d48dd6b560d750de8a9a700705d.jpg" alt="Cochinillo">
-                <div class="menu-details">
-                    <h3>Cochinillo</h3>
-                    <p>Spanish-style roasted suckling pig, tender and flavorful.</p>
-                    <div class="price-order">
-                        <span class="price">₱6,500</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbav8QGPEO12Jc-5d5kY7YP-DQX14P4klgsD6DnEk8hCKrS8d0oU_5CwEJr1sVipACbZU&usqp=CAU" alt="Whole Lechon Package">
-                <div class="menu-details">
-                    <h3>Whole Lechon Package</h3>
-                    <p>Complete feast with whole lechon, side dishes, and rice.</p>
-                    <div class="price-order">
-                        <span class="price">₱8,500</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Lechon_Manok.jpg" alt="Lechon Manok">
-                <div class="menu-details">
-                    <h3>Lechon Manok</h3>
-                    <p>Rotisserie-style grilled chicken, crispy outside, juicy inside.</p>
-                    <div class="price-order">
-                        <span class="price">₱380</span>
-                        <button class="order-btn">Order Now</button>
-                    </div>
-                </div>
-            </div>
+            <?php 
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo ' <div class="menu-item">';
+                            echo '<img src="' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '">';
+                            echo '<div class="menu-details">';
+                                echo '<h3>' . htmlspecialchars($row['name']) . '</h3>';
+                                echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+                                echo '<div class="price-order">';
+                                    echo '<span class="price">₱' . htmlspecialchars(number_format($row['price'], 2)) . '</span>';
+                                    echo '<button class="order-btn mt-auto" onclick="showOrderForm(' . $row['id'] . ', \'' . $row['name'] . '\', ' . $row['price'] . ')">Order Now</button>';
+                                echo '</div>';
+                            echo '</div>';
+                        echo '</div>' ;
+                    }
+                } else {
+                    echo '<p class="text-center">No menu items available.</p>';
+                }
+            ?>
         </div>
     </section>
+
+    <!-- Order Form Modal -->
+    <div class="order-form-overlay" onclick="closeOrderForm()"></div>
+    <div class="order-form">
+        <button class="close-btn" onclick="closeOrderForm()">X</button>
+        <h2>Place Your Order</h2>
+        <form method="POST" action="">
+            <input type="hidden" name="menu_item_id" id="menu_item_id">
+            <label for="quantity">Order Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" required oninput="calculateTotal()">
+
+            <label for="price">Price:</label>
+            <input type="text" id="price" readonly>
+
+            <label for="total">Total Price:</label>
+            <input type="text" id="total" readonly>
+
+            <label for="address">Address:</label>
+            <textarea name="address" id="address" required></textarea>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" name="phone_number" id="phone_number" required>
+
+            <label for="delivery_datetime">Scheduled Pickup/Delivery Date:</label>
+            <input type="text" name="delivery_datetime" id="delivery_datetime" required>
+
+            <label for="delivery_option">Delivery Option:</label>
+            <select name="delivery_option" id="delivery_option" required>
+                <option value="pickup">Pickup</option>
+                <option value="delivery">Delivery</option>
+            </select>
+
+            <button type="submit" name="place_order" class="submit-btn">Submit Order</button>
+        </form>
+    </div>
 
     <section class="popular">
         <div class="text">
@@ -159,6 +212,42 @@ $result = $conn->query($sql);
                 </div>
             </div>
         </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Include jQuery datetimepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.full.min.js"></script>
+
+    <script>
+        function showOrderForm(id, name, price) {
+            document.querySelector('.order-form').style.display = 'block';
+            document.querySelector('.order-form-overlay').style.display = 'block';
+            document.getElementById('menu_item_id').value = id;
+            document.getElementById('price').value = price;
+        }
+
+        function closeOrderForm() {
+            document.querySelector('.order-form').style.display = 'none';
+            document.querySelector('.order-form-overlay').style.display = 'none';
+        }
+
+        function calculateTotal() {
+            let quantity = document.getElementById('quantity').value;
+            let price = document.getElementById('price').value;
+            document.getElementById('total').value = quantity * price;
+        }
+        $(document).ready(function() {
+            $('#delivery_datetime').datetimepicker({
+                format: 'Y-m-d H:i', // Date and time format (Year-Month-Day Hour:Minute)
+                minDate: 0, // Disables past dates (optional)
+                step: 30, // Time step in minutes (optional, set to 30 for 30-minute intervals)
+                scrollInput: false, // Disables scrolling in the input fields
+                allowTimes: ['00:00', '06:00', '12:00', '18:00'], // Specific allowed times (optional)
+            });
+        });
+
+    </script>
+
 </body>
 </html>
 <?php
