@@ -77,14 +77,14 @@ $conn->close();
             </form>
             <div class="social-icons text-center mt-4">
                 <h5>Connect with us:</h5>
-                <a href="https://facebook.com" target="_blank" class="me-3">
-                    <img src="facebook-icon.png" alt="Facebook" width="30">
+                <a href="https://www.facebook.com/profile.php?id=100089774810887" target="_blank" class="me-3">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtfbcYeYgf0wQJ-LSPm3CPbyB7T1p0f5bnaA&s" alt="Facebook" width="30">
                 </a>
-                <a href="mailto:example@gmail.com" class="me-3">
-                    <img src="gmail-icon.png" alt="Gmail" width="30">
+                <a href="https://myaccount.google.com/?hl=en&utm_source=OGB&utm_medium=act&gar=WzEyMF0" class="me-3">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMVDG8T0r0VAC_tDTkjiqP8QgJcEogo3sbQ&s" alt="Gmail" width="30">
                 </a>
-                <a href="tel:+1234567890">
-                    <img src="phone-icon.png" alt="Phone" width="30">
+                <a href="0936 829 6783" class="me-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/8748/8748459.png" alt="Phone" width="30">
                 </a>
             </div>
         </div>
