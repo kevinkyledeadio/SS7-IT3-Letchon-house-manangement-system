@@ -39,6 +39,21 @@ if (isset($_GET['delete_id'])) {
     $stmt_delete->close();
 }
 
+// Handle delete category action
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_category_action'])) {
+    $delete_category = $_POST['delete_category'];
+    $sql_delete_category = "DELETE FROM menu_items WHERE category = ?";
+    $stmt_delete_category = $conn->prepare($sql_delete_category);
+    $stmt_delete_category->bind_param("s", $delete_category);
+
+    if ($stmt_delete_category->execute()) {
+        echo "<script>alert('Category deleted successfully!'); window.location.href='menuDisplay.php';</script>";
+    } else {
+        echo "<script>alert('Failed to delete category. Please try again.');</script>";
+    }
+    $stmt_delete_category->close();
+}
+
 // Fetch menu items
 $sql = "SELECT * FROM menu_items";
 $result = $conn->query($sql);
@@ -85,13 +100,30 @@ $result_categories = $conn->query($sql_categories);
             ?>
         </div>
 
+        <!-- Add dropdown and delete category action -->
+        <div class="text-center mb-4">
+            <form method="POST" action="">
+                <label for="delete_category" class="form-label">Delete Category:</label>
+                <select id="delete_category" name="delete_category" class="form-select d-inline-block w-auto">
+                    <option value="" disabled selected>Select a category</option>
+                    <?php
+                    $result_categories->data_seek(0); // Reset result pointer
+                    while ($category = $result_categories->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($category['category']) . '">' . htmlspecialchars($category['category']) . '</option>';
+                    }
+                    ?>
+                </select>
+                <button type="submit" name="delete_category_action" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </div>
+
         <div class="row">
             <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="col-md-4 mb-4 menu-item" data-category="' . htmlspecialchars($row['category']) . '">';
                     echo '<div class="card h-100 shadow-sm">';
-                    echo '<img src="' . htmlspecialchars($row['image_url']) . '" class="card-img-top" alt="' . htmlspecialchars($row['name']) . '">';
+                    echo '<img src="' . htmlspecialchars($row['image_url']) . '" class="card-img-top" alt="' . htmlspecialchars($row['name']) . '" style="width: 100%; height: 200px; object-fit: cover;">';
                     echo '<div class="card-body d-flex flex-column">';
                     echo '<h5 class="card-title">' . htmlspecialchars($row['name']) . '</h5>';
                     echo '<p class="card-text text-muted">' . htmlspecialchars($row['description']) . '</p>';

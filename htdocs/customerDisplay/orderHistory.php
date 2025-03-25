@@ -105,9 +105,19 @@ $result_canceled = $stmt_canceled->get_result();
                 echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
                 echo "</div>";
                 echo "<div class='order-actions'>";
-                echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-primary btn-sm'>Edit</a>";
-                echo "<a href='cancelOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-danger btn-sm'>Cancel</a>";
-                echo "</div>";
+                if ($row['status'] !== 'Order Received') {
+                    echo "<a href='editOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-primary btn-sm'>Edit</a>";
+                    echo "<a href='cancelOrder.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-danger btn-sm'>Cancel</a>";
+                }
+                if ($row['status'] === 'Out for Delivery') {
+                    echo "<a href='markReceived.php?order_id=" . htmlspecialchars($row['order_id']) . "' class='btn btn-success btn-sm'>Order Received</a>";
+                }
+                if ($row['status'] === 'Order Received') {
+                    echo "<form method='POST' action='removeOrder.php' style='display:inline;' onsubmit='return confirmRemove();'>";
+                    echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['order_id']) . "'>";
+                    echo "<button type='submit' class='btn btn-danger btn-sm'>Remove</button>";
+                    echo "</form>";
+                }
                 echo "</div>";
             }
         } else {

@@ -90,10 +90,13 @@
                             echo "<td>" . htmlspecialchars($row['address']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
                             echo '<td class="table-actions">';
-                            if ($row["status"] == "Completed") {
-                                echo '<button class="btn btn-warning btn-sm me-2" data-value="' . $row['id'] . '">Set to Pending</button>';
-                            } else {
-                                echo '<button class="btn btn-success btn-sm me-2" data-value="' . $row['id'] . '">Complete Order</button>';
+                            if ($row["status"] == "Pending") {
+                                echo '<button class="btn btn-success btn-sm me-2" data-value="' . $row['id'] . '">Out for Delivery</button>';
+                            } elseif ($row["status"] == "Out for Delivery") {
+                                echo '<button class="btn btn-primary btn-sm me-2" data-value="' . $row['id'] . '">Completed</button>';
+                            } elseif ($row["status"] == "Completed") {
+                                echo '<span class="badge bg-success">Completed</span>';
+                                echo '<button class="btn btn-danger btn-sm" data-value="' . $row['id'] . '">Delete</button>';
                             }
                             echo '<button class="btn btn-danger btn-sm" data-value="' . $row['id'] . '">Remove</button>';
                             echo '</td>';
@@ -122,17 +125,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Complete order
+            // Out for Delivery
             $(document).on('click', '.btn-success', function(e) {
-                if (confirm('Are you sure you want to complete this order?')) {
+                if (confirm('Are you sure you want to mark this order as Out for Delivery?')) {
                     var orderId = $(this).data('value');
                     $.ajax({
-                        url: 'complete-order.php',
+                        url: 'update-order-status.php',
                         type: 'POST',
-                        data: { orderId: orderId },
+                        data: { orderId: orderId, status: 'Out for Delivery' },
                         success: function(response) {
                             if (response === 'success') {
-                                alert('Order set to completed successfully.');
+                                alert('Order marked as Out for Delivery.');
                                 location.reload();
                             } else {
                                 alert('An error occurred. Please try again.');
@@ -142,17 +145,17 @@
                 }
             });
 
-            // Set to pending
-            $(document).on('click', '.btn-warning', function(e) {
-                if (confirm('Are you sure you want to set this order to pending?')) {
+            // Completed
+            $(document).on('click', '.btn-primary', function(e) {
+                if (confirm('Are you sure you want to mark this order as Completed?')) {
                     var orderId = $(this).data('value');
                     $.ajax({
-                        url: 'set-pending.php',
+                        url: 'update-order-status.php',
                         type: 'POST',
-                        data: { orderId: orderId },
+                        data: { orderId: orderId, status: 'Completed' },
                         success: function(response) {
                             if (response === 'success') {
-                                alert('Order set to pending successfully.');
+                                alert('Order marked as Completed.');
                                 location.reload();
                             } else {
                                 alert('An error occurred. Please try again.');
